@@ -1,22 +1,18 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
-import {IsBoolean, IsString} from 'class-validator'
+import { ObjectID, ObjectId } from "bson";
+import {Entity, PrimaryGeneratedColumn, Column, ObjectIdColumn} from "typeorm";
 
 @Entity()
 export class User {
 
-    @PrimaryGeneratedColumn()
-    id: number;
+    @ObjectIdColumn()
+    id: ObjectID;
 
     @Column()
-    @IsString()
     firstName: string;
 
     @Column()
-    @IsString()
     lastName: string;
 
     @Column()
-    @IsBoolean()
-    isActive: boolean;
-
+    password: any;
 }
