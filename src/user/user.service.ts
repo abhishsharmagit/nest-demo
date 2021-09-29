@@ -13,9 +13,7 @@ export class UserService {
   }
   getUser(id) {
     try {
-        console.log('here')
-        console.log(id)
-      return this.userRepository.find()
+      return this.userRepository.find();
     } catch (error) {
       console.log(error, 'error');
     }

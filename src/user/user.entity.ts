@@ -1,18 +1,20 @@
-import { ObjectID, ObjectId } from "bson";
-import {Entity, PrimaryGeneratedColumn, Column, ObjectIdColumn} from "typeorm";
+import { ObjectID } from 'bson';
+import { Entity, Column, ObjectIdColumn } from 'typeorm';
 
 @Entity()
 export class User {
+  @ObjectIdColumn()
+  id: ObjectID;
 
-    @ObjectIdColumn()
-    id: ObjectID;
+  @Column()
+  firstName: string;
 
-    @Column()
-    firstName: string;
+  @Column()
+  lastName: string;
 
-    @Column()
-    lastName: string;
+  @Column()
+  email: string;
 
-    @Column()
-    password: any;
+  @Column()
+  password: any;
 }
