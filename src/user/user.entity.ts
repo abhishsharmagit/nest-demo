@@ -16,5 +16,5 @@ export class User {
   email: string;
 
   @Column()
-  password: any;
+  password: string;
 }

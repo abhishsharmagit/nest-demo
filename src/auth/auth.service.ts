@@ -32,8 +32,10 @@ export class AuthService {
     }
   }
 
-  async findUserByEmail(email: string) {
-    const user = await this.userRepository.findOne(email);
+  async findUserByEmail(email: string): Promise<User> {
+ 
+    const user = await this.userRepository.findOne({email});
+
     if (!user) {
       throw new NotFoundException('cant find user');
     }
