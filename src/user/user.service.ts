@@ -11,7 +11,7 @@ export class UserService {
   getHello(): string {
     return 'Hello World!';
   }
-  getUser(id) {
+  getUser() {
     try {
       return this.userRepository.find();
     } catch (error) {

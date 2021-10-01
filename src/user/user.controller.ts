@@ -13,6 +13,6 @@ export class UserController {
   @UseGuards(JWTAuthGuard)
   @Get("user")
   getUser(){
-      return this.userService.getUser("6152be634213dd5d6364f1ff")
+      return this.userService.getUser()
   }
 }
