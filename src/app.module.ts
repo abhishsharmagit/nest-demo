@@ -12,7 +12,7 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: process.env.MONGO_URI,
+      url: 'mongodb://mongo:27017/nestbackend',
       synchronize: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,

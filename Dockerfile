@@ -4,9 +4,9 @@ WORKDIR /usr/src/app/
 
 COPY package.json ./
 
-RUN yarn install
+COPY yarn.lock .
 
-RUN yarn build
+RUN yarn install
 
 COPY . .
 
