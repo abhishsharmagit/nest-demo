@@ -21,9 +21,9 @@ export class UserService {
       console.log(error, 'error');
     }
   }
-  async updateUser(dto: UpdateUserDTO): Promise<User> {
+  async updateUser(dto: UpdateUserDTO, id:string): Promise<User> {
     try {
-      const user = await this.authService.findUserByEmail(dto.email);
+      const user = await this.authService.findUserByEmail(id);
 
       if (!user) {
         throw new ForbiddenException('user not found');

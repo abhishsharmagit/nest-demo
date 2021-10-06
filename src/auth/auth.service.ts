@@ -42,17 +42,17 @@ export class AuthService {
     return user;
   }
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.findUserByEmail(email);
 
-    const passwordMatched = await bcrypt.compare(password, user.password);
+    const passwordMatched = await bcrypt.compare(pass, user.password);
     if (!passwordMatched) {
       throw new UnauthorizedException(
         'password is incorrect. Please try again.',
       );
     }
-
-    return user;
+    const {password, ...sanitizedUser} = user
+    return sanitizedUser;
   }
 
   async login(user: User) {

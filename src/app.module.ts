@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user/user.entity';
 import { UserModule } from './user/user.module';
@@ -12,7 +10,7 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: 'mongodb://mongo:27017/nestbackend',
+      url: 'mongodb://localhost:27017/nestbackend',
       synchronize: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -23,7 +21,5 @@ import { UserModule } from './user/user.module';
     UserModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

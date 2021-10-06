@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Put,
+  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -37,8 +38,11 @@ export class UserController {
   }
 
   @Put('update')
-  async updateUser(@Body() updateUserDto: UpdateUserDTO): Promise<User> {
-    return this.userService.updateUser(updateUserDto);
+  async updateUser(
+    @Body() updateUserDto: UpdateUserDTO,
+    @Request() req,
+  ): Promise<User> {
+    return this.userService.updateUser(updateUserDto, req.id);
   }
 
   @Delete(':id')
