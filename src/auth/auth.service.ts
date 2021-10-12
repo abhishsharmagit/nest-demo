@@ -1,4 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
@@ -9,32 +15,50 @@ const bcrypt = require('bcrypt');
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   async signUp(dto: CreateUserDTO) {
     try {
-      const user = this.userRepository.findOne(dto.email);
-      console.log(user, 'user')
-      if (user) {
-        throw 'user alraedy exist';
-      }
       const hashedPassword: string = await bcrypt.hash(dto.password, 10);
       const userEntity = this.userRepository.create({
         ...dto,
         password: hashedPassword,
       });
-     return await this.userRepository.save(userEntity);
-     
+      await this.userRepository.save(userEntity);
+      return this.login(userEntity);
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
   }
 
-//   async login(user) {
-//       try{
+  async findUserByEmail(email: string): Promise<User> {
+ 
+    const user = await this.userRepository.findOne({email});
 
-//       }catch(error){
+    if (!user) {
+      throw new NotFoundException('cant find user');
+    }
+    return user;
+  }
 
-//       }
-//   }
+  async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.findUserByEmail(email);
+
+    const passwordMatched = await bcrypt.compare(pass, user.password);
+    if (!passwordMatched) {
+      throw new UnauthorizedException(
+        'password is incorrect. Please try again.',
+      );
+    }
+    const {password, ...sanitizedUser} = user
+    return sanitizedUser;
+  }
+
+  async login(user: User) {
+    const payload = { name: user.firstName, lastName: user.lastName };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
 }
